@@ -16,7 +16,7 @@ const NATIVE =
 // 현재 각도에서 목표 각도까지 가장 짧게 도는 값
 const nearest = (from, to) => from + ((((to - from) % 360) + 540) % 360) - 180
 
-export default function ArrowCursor({ size = 26, idleDelay = 700 }) {
+export default function ArrowCursor({ size = 36, idleDelay = 700 }) {
   const reduce = useReducedMotion()
   const [enabled, setEnabled] = useState(false)
   const [visible, setVisible] = useState(false)
