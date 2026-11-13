@@ -1,0 +1,57 @@
+/* 립핏 화살표 커서 */
+
+/* 커서가 켜지면 기본 커서를 숨김 (드래그 카드의 grab 커서 포함) */
+html.has-arrow-cursor,
+html.has-arrow-cursor * {
+  cursor: none !important;
+}
+
+/* 글자를 입력하는 곳은 기본 커서를 그대로 보여 줌 */
+html.has-arrow-cursor
+  :is(input:not([type='button']):not([type='submit']):not([type='checkbox']):not([type='radio']), textarea, [contenteditable='true']) {
+  cursor: text !important;
+}
+html.has-arrow-cursor [data-cursor='native'],
+html.has-arrow-cursor [data-cursor='native'] * {
+  cursor: auto !important;
+}
+
+.arrow-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.arrow-cursor[data-visible] {
+  opacity: 1;
+}
+
+.arrow-cursor__rotor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+
+.arrow-cursor__svg {
+  position: absolute;
+  overflow: visible;
+  filter: drop-shadow(0 3px 5px rgba(178, 31, 77, 0.35));
+}
+.arrow-cursor__svg path {
+  fill: var(--rose-500);
+  stroke: var(--surface);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  transition: fill 0.2s ease;
+}
+.arrow-cursor[data-hover] .arrow-cursor__svg path {
+  fill: var(--rose-700);
+}

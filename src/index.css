@@ -1,0 +1,186 @@
+/* 립핏 디자인 토큰 (docs/06-site-design.md 11. 구현 메모) */
+:root {
+  --page-top: #FFEEF3;
+  --page-mid: #FFF7F9;
+  --surface: #FFFFFF;
+  --blush-100: #FFF1F5;
+  --blush-200: #FFE3EC;
+  --line-header: #F7E1E8;
+  --line-100: #F6E4EA;
+  --line-200: #F0D2DC;
+  --line-300: #E7A9BC;
+  --ink: #2A2027;
+  --ink-muted: #6F5A65;
+  --ink-subtle: #7A6170;
+  --rose-500: #D42A5E;
+  --rose-600: #BC2152;
+  --rose-700: #B21F4D;
+  --on-rose: #FFFFFF;
+  --image-slot: #F2F2F2;
+  --image-slot-ink: #6B6B6B;
+  --image-slot-icon: #B5B5B5;
+  --overlay: rgba(70, 30, 48, 0.35);
+  --lipstick-case: #F3DCE3;
+
+  --lip-petal: #F2B8C6;
+  --lip-pink: #E8798F;
+  --lip-peach: #E9A99B;
+  --lip-coral: #D9826A;
+  --lip-red: #C8455A;
+  --lip-mauve: #B5656B;
+  --lip-berry: #A84A5C;
+  --lip-plum: #7E2F45;
+
+  --font-sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 12px 32px rgba(212, 42, 94, 0.07);
+  --shadow-card-hover: 0 18px 40px rgba(212, 42, 94, 0.14);
+  --shadow-dialog: 0 24px 60px rgba(70, 30, 48, 0.18);
+  --shadow-chip: 0 8px 18px rgba(70, 30, 48, 0.2);
+
+  --container: 1200px;
+  --container-narrow: 768px;
+  --header-height: 72px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  word-break: keep-all;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* 페이지 공통 틀: 바탕 그라데이션 */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--page-top) 0%, var(--page-mid) 38%, var(--surface) 100%);
+}
+
+/* ---------- 버튼 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-l {
+  height: 60px;
+  font-size: 18px;
+}
+.btn-m {
+  height: 52px;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: var(--rose-500);
+  color: var(--on-rose);
+}
+.btn-primary:hover {
+  background: var(--rose-600);
+}
+.btn-arrow {
+  transition: transform 0.2s ease;
+}
+.btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-secondary {
+  border: 1px solid var(--line-200);
+  background: var(--surface);
+  color: var(--ink);
+}
+.btn-secondary:hover {
+  background: var(--blush-100);
+  border-color: var(--line-300);
+}
+
+.btn-text {
+  padding: 0 12px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  gap: 6px;
+}
+.btn-text:hover {
+  color: var(--rose-500);
+}
+
+.btn:disabled,
+.btn-disabled {
+  background: var(--line-100);
+  color: var(--ink-subtle);
+  cursor: default;
+}
+.btn:disabled:active {
+  transform: none;
+}
+
+/* 키보드 초점 */
+.btn:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---------- 움직임 ---------- */
+@keyframes lfUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lfIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes lfSlide {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: lfUp 0.45s ease-out both;
+}
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

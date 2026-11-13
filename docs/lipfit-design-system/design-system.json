@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "assetGroups": {},
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-11-13T03:00:00Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "groups": [],
+  "lastChange": {
+    "at": "2026-11-13T03:00:00Z",
+    "by": "Claude",
+    "note": "디자인 캔버스 '립핏 시각 디자인' 현재 상태에서 첫 시스템 생성",
+    "via": "Claude"
+  },
+  "layout": "files",
+  "libraries": [],
+  "namespace": "LipFit",
+  "sections": {},
+  "title": "립핏 디자인 시스템"
+}

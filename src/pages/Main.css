@@ -1,0 +1,140 @@
+/* S01-1 첫 화면 소개 */
+.main-hero {
+  position: relative;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 96px 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.main-title {
+  margin: 0;
+  font-size: 52px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.main-lead {
+  margin: 20px 0 0;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.main-start {
+  margin-top: 40px;
+  padding: 0 40px;
+  gap: 10px;
+}
+
+/* 진행 단계 미리보기 */
+.main-steps {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: var(--surface);
+  border: 1px solid var(--line-header);
+  border-radius: var(--radius-pill);
+}
+.main-steps-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.main-steps-num {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--blush-200);
+  color: var(--rose-700);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-steps-arrow {
+  display: flex;
+}
+
+/* 립 색 칩 띠 */
+.main-chipband {
+  margin-top: 64px;
+  display: flex;
+  gap: 12px;
+}
+.main-chipband .chip {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+}
+
+/* 컬러칩 호버 */
+.chip {
+  transition: scale 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.4), translate 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.4),
+    box-shadow 0.22s ease, filter 0.22s ease;
+  cursor: default;
+}
+.chip:hover {
+  scale: 1.3;
+  translate: 0 -4px;
+  box-shadow: var(--shadow-chip);
+  filter: saturate(1.15);
+}
+.chip-deco {
+  pointer-events: auto;
+}
+.chip-deco:hover {
+  scale: 1.15;
+  translate: 0 -6px;
+}
+svg.chip:hover {
+  box-shadow: none;
+  filter: drop-shadow(0 8px 12px rgba(70, 30, 48, 0.2)) saturate(1.15);
+}
+
+/* 히어로 양옆 장식 */
+.main-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.main-deco > * {
+  position: absolute;
+}
+.main-deco div {
+  border-radius: var(--radius-pill);
+}
+.deco-lipstick-l { left: 96px; top: 150px; transform: rotate(-14deg); }
+.deco-1 { left: 210px; top: 84px; width: 56px; height: 56px; background: var(--lip-pink); }
+.deco-2 { left: 56px; top: 336px; width: 28px; height: 28px; background: var(--lip-peach); }
+.deco-3 { left: 176px; top: 404px; width: 64px; height: 26px; background: var(--lip-berry); transform: rotate(18deg); }
+.deco-lipstick-r { right: 112px; top: 128px; transform: rotate(12deg); }
+.deco-4 { right: 214px; top: 62px; width: 48px; height: 20px; background: var(--lip-pink); transform: rotate(-20deg); }
+.deco-5 { right: 226px; top: 310px; width: 44px; height: 44px; background: var(--lip-mauve); }
+.deco-6 { right: 72px; top: 392px; width: 24px; height: 24px; background: var(--lip-petal); }
+
+/* S01-2 소개 이미지 */
+.main-intro {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 64px 24px 120px;
+}
+.main-intro-image {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
