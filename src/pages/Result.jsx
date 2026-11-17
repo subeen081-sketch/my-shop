@@ -10,7 +10,6 @@ import { downloadResultImage } from '../utils/resultImage.js'
 import { useToast } from '../hooks/useToast.js'
 import Toast from '../components/Toast.jsx'
 import logo from '../assets/logo.jpg'
-import resultImage from '../assets/P03_HEADER.jpg'
 import './Result.css'
 
 // S03-1 결과 이미지: 누르거나 옆으로 끌면 뒤집혀 결과 요약이 보임 (React Bits FlipCard)
@@ -20,7 +19,7 @@ function ResultFlipCard({ tone }) {
       <FlipCard
         className="result-flip-card"
         ariaLabel="결과 이미지 뒤집기"
-        front={<img className="result-flip-img" src={resultImage} alt="여러 립 컬러를 하트 모양으로 겹쳐 바른 이미지. 누르면 결과 요약이 보여요" />}
+        front={<img className="result-flip-img" src={tone.image} alt={tone.imageAlt} />}
         back={
           <div className="result-flip-back">
             <span className="result-flip-eyebrow">나의 립 컬러 결과</span>
@@ -94,7 +93,7 @@ function Result() {
   const onSave = async () => {
     setSaving(true)
     try {
-      await downloadResultImage({ tone, toneKey, headerImage: resultImage, logoImage: logo, products: productPages[0].slice(0, 3) })
+      await downloadResultImage({ tone, toneKey, headerImage: tone.image, logoImage: logo, products: productPages[0].slice(0, 3) })
       toast.show('결과 이미지를 저장했어요')
     } catch {
       toast.show('이미지를 저장하지 못했어요. 다시 시도해 주세요')
