@@ -37,6 +37,8 @@ export default function FlipCard({
   glare = true,
   glareOpacity = 0.22,
   hoverScale = 1.03,
+  // false면 마우스를 올릴 때의 기울기·빛 반사·커짐을 끄고, 누르는 동안 커지는 모양만 남김 (립핏: 터치 기기·모바일 폭)
+  hover = true,
   perspective = 1100,
   stiffness = 170,
   damping = 20,
@@ -156,7 +158,7 @@ export default function FlipCard({
       while (g.hist.length > 2 && now - g.hist[0].t > HISTORY_MS) g.hist.shift();
       return;
     }
-    if (!tilt || reduce || disabled || e.pointerType === 'touch') return;
+    if (!tilt || !hover || reduce || disabled || e.pointerType === 'touch') return;
     const r = e.currentTarget.getBoundingClientRect();
     const px = clamp((e.clientX - r.left) / r.width, 0, 1);
     const py = clamp((e.clientY - r.top) / r.height, 0, 1);
@@ -174,7 +176,7 @@ export default function FlipCard({
       if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {}
     setDragging(false);
-    if (e.pointerType === 'touch' || !rootRef.current?.matches(':hover')) rest();
+    if (e.pointerType === 'touch' || !hover || !rootRef.current?.matches(':hover')) rest();
     if (!g.moved) {
       if (!cancelled && flipOnClick) flip(false);
       else settle(target.current, 0, false);
@@ -225,7 +227,7 @@ export default function FlipCard({
       onPointerCancel={e => release(e, true)}
       onLostPointerCapture={e => release(e, true)}
       onPointerEnter={e => {
-        if (!reduce && !disabled && e.pointerType !== 'touch') lift.set(hoverScale);
+        if (hover && !reduce && !disabled && e.pointerType !== 'touch') lift.set(hoverScale);
       }}
       onPointerLeave={() => {
         if (!grip.current) rest();

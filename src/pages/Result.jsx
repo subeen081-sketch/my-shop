@@ -8,12 +8,15 @@ import { loadLikes, saveLikes } from '../utils/likes.js'
 import { shareLink, shareMessage } from '../utils/share.js'
 import { downloadResultImage } from '../utils/resultImage.js'
 import { useToast } from '../hooks/useToast.js'
+import { useCanHover } from '../hooks/useCanHover.js'
 import Toast from '../components/Toast.jsx'
 import logo from '../assets/logo.jpg'
 import './Result.css'
 
 // S03-1 결과 이미지: 누르거나 옆으로 끌면 뒤집혀 결과 요약이 보임 (React Bits FlipCard)
 function ResultFlipCard({ tone }) {
+  // 터치 기기·모바일 폭에서는 호버(기울기·빛 반사·커짐)를 끄고, 누르는 동안 커지는 모양만 씀
+  const canHover = useCanHover()
   return (
     <div className="result-flip rise">
       <FlipCard
@@ -35,6 +38,7 @@ function ResultFlipCard({ tone }) {
         tiltMax={6}
         glareOpacity={0.18}
         hoverScale={1.02}
+        hover={canHover}
         background="#FFFFFF"
         color="#2A2027"
         shadowColor="#D42A5E"

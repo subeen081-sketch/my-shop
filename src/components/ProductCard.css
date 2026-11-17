@@ -102,8 +102,8 @@
   background: var(--surface);
 }
 
-/* 터치 기기: 카드가 떠오르는 호버 효과는 끔. 대신 추천 목록을 손가락으로 밀어 넘김(Result.jsx) */
-@media (hover: none) and (pointer: coarse) {
+/* 터치 기기·모바일 폭(767px 이하): 카드가 떠오르는 호버 효과는 끔. 대신 추천 목록을 손가락으로 밀어 넘김(Result.jsx) */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .pcard:hover {
     transform: none;
   }
@@ -153,8 +153,8 @@
   }
 }
 
-/* 터치 기기: 호버 대신 누르는 동안 카드가 떠오르고 그림자가 짙어짐 */
-@media (hover: none) and (pointer: coarse) {
+/* 터치 기기·모바일 폭(767px 이하): 호버 대신 누르는 동안 카드가 떠오르고 그림자가 짙어짐 */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .pcard:active {
     transform: translateY(-2px);
   }

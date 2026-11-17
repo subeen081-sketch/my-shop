@@ -185,10 +185,10 @@ button:focus-visible {
   }
 }
 
-/* ── 터치 기기 전용 (마우스가 없는 환경). 데스크톱(마우스)에는 적용되지 않음 ──
-   마우스를 올릴 때만 쓰는 효과는 터치 기기에서 끔(손가락으로 누른 뒤 호버 모양이 남지 않게).
+/* ── 터치 기기와 모바일 폭(767px 이하) 전용. 768px 이상에서 마우스로 볼 때는 적용되지 않음 ──
+   마우스를 올릴 때만 쓰는 효과는 끔(손가락으로 누른 뒤 호버 모양이 남지 않게).
    누르는 순간의 눌린 모양(.btn:active)은 그대로 둠 — P01 진단 시작하기 '누르는 순간 살짝 눌린 모양' */
-@media (hover: none) and (pointer: coarse) {
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .btn-primary:not(:disabled):hover {
     background: var(--rose-500);
   }
@@ -204,8 +204,8 @@ button:focus-visible {
   }
 }
 
-/* 터치 기기: 호버 대신 누르는 동안 같은 효과를 보여 줌 */
-@media (hover: none) and (pointer: coarse) {
+/* 터치 기기·모바일 폭(767px 이하): 호버 대신 누르는 동안 같은 효과를 보여 줌 */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .btn-primary:not(:disabled):active {
     background: var(--rose-600);
   }

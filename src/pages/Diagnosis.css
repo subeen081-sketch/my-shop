@@ -103,8 +103,8 @@
   padding: 0 36px;
 }
 
-/* 터치 기기: 선택지 호버 효과 끔(선택된 채움 상태는 그대로) */
-@media (hover: none) and (pointer: coarse) {
+/* 터치 기기·모바일 폭(767px 이하): 선택지 호버 효과 끔(선택된 채움 상태는 그대로) */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .diag-option:not(.is-checked):hover {
     background: var(--surface);
     border-color: var(--line-200);
@@ -136,8 +136,8 @@
   }
 }
 
-/* 터치 기기: 호버 대신 누르는 동안 선택지 바탕이 옅게 바뀜(선택된 채움 상태는 그대로) */
-@media (hover: none) and (pointer: coarse) {
+/* 터치 기기·모바일 폭(767px 이하): 호버 대신 누르는 동안 선택지 바탕이 옅게 바뀜(선택된 채움 상태는 그대로) */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
   .diag-option:not(.is-checked):active {
     background: var(--page-mid);
     border-color: var(--line-300);
