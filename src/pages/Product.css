@@ -112,3 +112,54 @@
   padding: 0 28px;
   font-size: 16px;
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+/* 태블릿 768~1023px */
+@media (max-width: 1023px) {
+  .product {
+    padding-top: 80px;
+  }
+  .product-body {
+    gap: 32px;
+  }
+  .product-name {
+    font-size: 28px;
+  }
+}
+/* 모바일 ~767px: 이미지 위, 정보 아래 한 열 */
+@media (max-width: 767px) {
+  .product {
+    padding: 48px 16px 80px;
+  }
+  .product-section {
+    gap: 28px;
+  }
+  .product-heading {
+    font-size: 26px;
+  }
+  .product-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .product-info {
+    gap: 24px;
+    padding-top: 0;
+  }
+  .product-name {
+    font-size: 24px;
+  }
+  .product-desc {
+    font-size: 16px;
+  }
+  .product-spec-row {
+    padding: 14px 0;
+    font-size: 15px;
+  }
+  .product-spec-row dt {
+    width: 96px;
+    flex-shrink: 0;
+  }
+  .product-share {
+    padding: 0 20px;
+  }
+}

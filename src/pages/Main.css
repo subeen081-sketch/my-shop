@@ -138,3 +138,65 @@ svg.chip:hover {
   object-fit: cover;
   border-radius: var(--radius-lg);
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+/* 태블릿 768~1023px: 히어로 양옆 장식이 제목·버튼과 겹쳐서 숨김(모바일과 같음). 아래 립 색 칩 띠는 유지 */
+@media (max-width: 1023px) {
+  .main-deco {
+    display: none;
+  }
+  .main-hero {
+    padding-top: 80px;
+  }
+  .main-title {
+    font-size: 44px;
+  }
+  .main-intro-image {
+    height: 440px;
+  }
+}
+/* 모바일 ~767px (히어로 장식은 태블릿 규칙에서 이미 숨김) */
+@media (max-width: 767px) {
+  .main-hero {
+    padding: 56px 16px 0;
+  }
+  .main-title {
+    font-size: 30px;
+  }
+  .main-lead {
+    margin-top: 16px;
+    font-size: 17px;
+  }
+  .main-start {
+    margin-top: 32px;
+    padding: 0 32px;
+  }
+  .main-steps {
+    margin-top: 24px;
+    padding: 8px 14px;
+    gap: 6px;
+    font-size: 13px;
+  }
+  .main-steps-item {
+    gap: 6px;
+  }
+  .main-steps-num {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+  .main-chipband {
+    margin-top: 40px;
+    gap: 8px;
+  }
+  .main-chipband .chip {
+    width: 16px;
+    height: 16px;
+  }
+  .main-intro {
+    padding: 40px 16px 80px;
+  }
+  .main-intro-image {
+    height: 280px;
+  }
+}

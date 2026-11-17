@@ -114,3 +114,79 @@
 .result-action {
   padding: 0 28px;
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+/* 태블릿 768~1023px */
+@media (max-width: 1023px) {
+  .result {
+    padding-top: 80px;
+  }
+  .result-reco {
+    gap: 16px;
+  }
+  .result-grid {
+    gap: 16px;
+  }
+}
+/* 모바일 ~767px: 추천 카드 한 줄 2개, ‹ ›는 카드 아래 가운데 */
+@media (max-width: 767px) {
+  .result {
+    padding: 48px 16px 80px;
+  }
+  .result-flip {
+    width: 100%;
+    height: auto;
+  }
+  .result-flip-card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 7 / 4;
+  }
+  .result-flip-back {
+    gap: 4px;
+    padding: 20px;
+  }
+  .result-flip-eyebrow {
+    font-size: 13px;
+  }
+  .result-flip-tone {
+    font-size: 26px;
+  }
+  .result-flip-text {
+    font-size: 15px;
+  }
+  .result-flip-hint {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+  .result-title {
+    margin-top: 28px;
+    font-size: 28px;
+  }
+  .result-desc {
+    font-size: 16px;
+  }
+  .result-reco {
+    margin-top: 56px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 12px;
+  }
+  .result-grid {
+    order: -1;
+    flex: 1 1 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .result-page-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .result-actions {
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .result-action {
+    padding: 0 22px;
+  }
+}

@@ -102,3 +102,28 @@
 .diag-next {
   padding: 0 36px;
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+@media (max-width: 767px) {
+  .diag {
+    padding: 40px 16px 80px;
+    gap: 20px;
+  }
+  .diag-card {
+    padding: 28px 20px;
+    gap: 24px;
+  }
+  .diag-question {
+    font-size: 22px;
+  }
+  .diag-option {
+    height: auto;
+    min-height: 56px;
+    padding: 14px 18px;
+    font-size: 16px;
+    gap: 12px;
+  }
+  .diag-next {
+    padding: 0 28px;
+  }
+}

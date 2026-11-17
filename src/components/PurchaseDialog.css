@@ -50,3 +50,18 @@
   margin-top: 16px;
   width: 100%;
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ──
+   마우스로 보는 좁은 창용. 터치 기기의 아래 시트(.pdialog.rise 규칙)가 이보다 우선함 */
+@media (max-width: 767px) {
+  .pdialog {
+    width: calc(100% - 32px);
+    padding: 40px 24px 28px;
+  }
+  .pdialog-title {
+    font-size: 22px;
+  }
+  .pdialog-text {
+    font-size: 16px;
+  }
+}

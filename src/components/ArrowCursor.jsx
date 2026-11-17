@@ -4,7 +4,7 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/reac
 import './ArrowCursor.css'
 
 // 립핏 화살표 커서: 움직이는 방향으로 화살촉이 돌아가고, 멈추면 기본 방향(왼쪽 위)으로 돌아옴
-// - 마우스(정밀 포인터)에서만 켜지고, 터치 기기에서는 기본 커서를 그대로 씀
+// - 마우스(정밀 포인터)에서만 켜지고, 터치 기기와 모바일 폭(767px 이하)에서는 기본 커서를 그대로 씀
 // - 입력창과 data-cursor="native" 영역에서는 기본 커서로 바뀜
 
 const REST_ANGLE = -135 // 화살촉이 왼쪽 위를 향하는 기본 방향
@@ -32,9 +32,9 @@ export default function ArrowCursor({ size = 36, idleDelay = 700 }) {
   const last = useRef(null)
   const idle = useRef(null)
 
-  // 마우스가 있는 환경에서만 켬
+  // 마우스가 있는 환경에서만 켬. 모바일 폭(767px 이하)에서는 마우스가 있어도 끄고 기본 커서를 씀
   useEffect(() => {
-    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)')
     const sync = () => setEnabled(mq.matches)
     sync()
     mq.addEventListener('change', sync)

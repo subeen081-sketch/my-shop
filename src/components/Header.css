@@ -56,3 +56,17 @@
   font-weight: 500;
   color: var(--ink-muted);
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+@media (max-width: 767px) {
+  .header-inner {
+    height: 60px;
+    padding: 0 16px;
+  }
+  .header-wordmark {
+    font-size: 20px;
+  }
+  .header-sub {
+    font-size: 14px;
+  }
+}

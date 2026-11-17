@@ -101,3 +101,44 @@
   padding: 0;
   background: var(--surface);
 }
+
+/* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
+/* 모바일 ~767px: 한 줄 2개에 맞춰 카드 안을 줄임 */
+@media (max-width: 767px) {
+  .pcard-banner {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+  .pcard-new {
+    padding: 1px 8px;
+    font-size: 11px;
+  }
+  .pcard-image {
+    margin: 10px 10px 0;
+  }
+  .pcard-info {
+    padding: 12px 12px 14px;
+    gap: 8px;
+  }
+  .pcard-price {
+    font-size: 15px;
+  }
+  .pcard-badge {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+  .pcard-brand {
+    font-size: 12px;
+  }
+  .pcard-name {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .pcard-like {
+    top: 52px;
+    left: 18px;
+    width: 36px;
+    height: 36px;
+  }
+}
