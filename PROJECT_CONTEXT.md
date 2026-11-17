@@ -157,7 +157,7 @@
   | P03-1.jpg ~ P03-9.jpg | P03 추천 상품 카드 이미지 (1~6 첫 화면, 7~9 다음 화면) (출처: 답변) |
   | P04.jpg | P04 상품 이미지 (출처: 구현) |
   | main_page.jpg | 쓰지 않음 (출처: 답변) |
-- 파비콘: FABICON.jpg.lnk는 윈도우 바로가기 파일이라 쓰지 못함. 파비콘 [미정]
+- 파비콘: logo.jpg의 로즈 둥근 사각형 마크를 잘라 public/favicon.ico·favicon.png(192px)·apple-touch-icon.png(180px)로 둠. FABICON.jpg.lnk는 없는 파일(D:/assets/logo.jpg)을 가리키는 바로가기라 쓰지 않음 (출처: 구현)
 - 글꼴: IBM Plex Sans KR를 Google Fonts에서 불러옴(index.html). 글꼴 파일은 따로 두지 않음 (출처: 답변, docs/06-site-design.md)
 
 ## 7. 반응형 기준
