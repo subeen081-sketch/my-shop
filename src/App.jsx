@@ -28,6 +28,7 @@ function App() {
         <Route path="/diagnosis" element={<Diagnosis />} />
         <Route path="/result" element={<Result />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/product/:id" element={<Product />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

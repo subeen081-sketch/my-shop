@@ -1,12 +1,14 @@
-import { useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import FlipCard from '../components/FlipCard.jsx'
 import ProductCard from '../components/ProductCard.jsx'
-import { productPages } from '../data/products.js'
+import { productPagesFor } from '../data/products.js'
+import { TONES, toTone } from '../data/tones.js'
 import resultImage from '../assets/P03_HEADER.jpg'
 import './Result.css'
 
 // S03-1 결과 이미지: 누르거나 옆으로 끌면 뒤집혀 결과 요약이 보임 (React Bits FlipCard)
-function ResultFlipCard() {
+function ResultFlipCard({ tone }) {
   return (
     <div className="result-flip rise">
       <FlipCard
@@ -16,8 +18,8 @@ function ResultFlipCard() {
         back={
           <div className="result-flip-back">
             <span className="result-flip-eyebrow">나의 립 컬러 결과</span>
-            <strong className="result-flip-tone">쿨 톤</strong>
-            <p className="result-flip-text">푸른빛이 도는 맑은 컬러가 잘 어울려요</p>
+            <strong className="result-flip-tone">{tone.label}</strong>
+            <p className="result-flip-text">{tone.back}</p>
             <span className="result-flip-hint">다시 누르면 이미지로 돌아가요</span>
           </div>
         }
@@ -51,14 +53,63 @@ function PageArrow({ direction, label, onClick, disabled }) {
 // 이 거리(px)보다 짧게 밀면 넘기지 않음(카드 누르기와 구분)
 const SWIPE_MIN = 50
 
+// ‹ › 넘김 슬라이드 시간(ms). Result.css의 0.45s와 맞춤
+const SLIDE_MS = 450
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 // P03 진단 결과
 function Result() {
+  // 진단에서 넘어온 톤 (?tone=warm|cool|neutral). 없으면 쿨 톤
+  const [params] = useSearchParams()
+  const toneKey = toTone(params.get('tone'))
+  const tone = TONES[toneKey]
+  const productPages = productPagesFor(toneKey)
+
   const [page, setPage] = useState(0)
   const [liked, setLiked] = useState({})
+  // 넘기는 중일 때만 값이 있음: { from: 이전 화면 번호, dir: 'next' | 'prev', fromH: 이전 높이 }
+  const [slide, setSlide] = useState(null)
+  const sliderRef = useRef(null)
+  const gridRef = useRef(null)
 
   const toggleLike = (id) => setLiked((prev) => ({ ...prev, [id]: !prev[id] }))
   const isFirst = page === 0
   const isLast = page === productPages.length - 1
+
+  // ‹ ›와 손가락 밀기가 함께 씀. 지금 화면은 옆으로 밀려 나가고 다음 화면이 반대쪽에서 들어옴
+  const goTo = (next) => {
+    if (next < 0 || next >= productPages.length || next === page || slide) return
+    if (prefersReducedMotion()) {
+      setPage(next) // 동작 줄이기 설정이면 움직임 없이 바로 바꿈
+      return
+    }
+    setSlide({ from: page, dir: next > page ? 'next' : 'prev', fromH: gridRef.current.offsetHeight })
+    setPage(next)
+  }
+
+  const endSlide = () => {
+    if (sliderRef.current) sliderRef.current.style.height = ''
+    setSlide(null)
+  }
+
+  // 카드 줄 수가 달라(6개 ↔ 3개) 높이도 이전 높이에서 새 높이로 부드럽게 바꿈
+  useLayoutEffect(() => {
+    if (!slide) return
+    const el = sliderRef.current
+    el.style.height = `${slide.fromH}px`
+    el.getBoundingClientRect() // 시작 높이를 먼저 적용
+    el.style.height = `${gridRef.current.offsetHeight}px`
+    const fallback = setTimeout(endSlide, SLIDE_MS + 150) // animationend를 놓쳐도 끝나게
+    return () => clearTimeout(fallback)
+  }, [slide])
+
+  const renderCards = (items) =>
+    items.map((product) => (
+      <ProductCard key={product.id} product={product} liked={!!liked[product.id]} onToggleLike={() => toggleLike(product.id)} />
+    ))
 
   // 터치 기기 전용: 추천 목록을 손가락으로 옆으로 밀어 넘김 (‹ › 버튼과 같은 동작)
   // 터치 이벤트만 쓰므로 마우스(데스크톱)에서는 동작하지 않음
@@ -75,35 +126,47 @@ function Result() {
     const dx = t.clientX - start.x
     const dy = t.clientY - start.y
     if (Math.abs(dx) < SWIPE_MIN || Math.abs(dx) <= Math.abs(dy)) return
-    if (dx < 0 && !isLast) setPage(page + 1)
-    if (dx > 0 && !isFirst) setPage(page - 1)
+    if (dx < 0) goTo(page + 1)
+    if (dx > 0) goTo(page - 1)
   }
 
   return (
     <main className="result">
       {/* S03-1 결과 영역 */}
       <section className="result-summary" aria-labelledby="result-title">
-        <ResultFlipCard />
+        <ResultFlipCard tone={tone} />
         <h1 id="result-title" className="result-title rise">
-          나의 립 컬러는 쿨 톤
+          {tone.title}
         </h1>
-        <p className="result-desc">로즈, 베리, 플럼처럼 푸른빛이 섞인 컬러가 얼굴을 맑고 화사하게 밝혀 줘요. 아래에서 어울리는 립을 골라 보세요.</p>
+        <p className="result-desc">{tone.desc}</p>
       </section>
 
       {/* S03-2 추천 영역: 첫 화면 6개, ›를 누르면 나머지 3개 */}
       <section className="result-reco" aria-label="추천 상품">
-        <PageArrow direction="left" label="이전 추천 상품" onClick={() => setPage(page - 1)} disabled={isFirst} />
-        <div key={page} className="result-grid" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          {productPages[page].map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              liked={!!liked[product.id]}
-              onToggleLike={() => toggleLike(product.id)}
-            />
-          ))}
+        <PageArrow direction="left" label="이전 추천 상품" onClick={() => goTo(page - 1)} disabled={isFirst} />
+        <div
+          ref={sliderRef}
+          className={`result-slider${slide ? ' is-sliding' : ''}`}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          {/* 밀려 나가는 이전 화면 (넘기는 동안만 보임) */}
+          {slide && (
+            <div className={`result-grid result-grid-out slide-out-${slide.dir}`} aria-hidden="true" inert>
+              {renderCards(productPages[slide.from])}
+            </div>
+          )}
+          <div
+            ref={gridRef}
+            className={`result-grid${slide ? ` slide-in-${slide.dir}` : ''}`}
+            onAnimationEnd={(e) => {
+              if (slide && e.target === e.currentTarget) endSlide()
+            }}
+          >
+            {renderCards(productPages[page])}
+          </div>
         </div>
-        <PageArrow direction="right" label="다음 추천 상품" onClick={() => setPage(page + 1)} disabled={isLast} />
+        <PageArrow direction="right" label="다음 추천 상품" onClick={() => goTo(page + 1)} disabled={isLast} />
       </section>
 
       {/* S03-3 결과 저장·공유: 동작 [미정] */}

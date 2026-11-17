@@ -5,7 +5,7 @@ import './ProductCard.css'
 function ProductCard({ product, liked, onToggleLike }) {
   return (
     <div className="pcard">
-      <Link to="/product" className="pcard-link" aria-label={`${product.name} 상세 보기`}>
+      <Link to={`/product/${product.id}`} className="pcard-link" aria-label={`${product.name} 상세 보기`}>
         <div className="pcard-banner">
           <span>{product.banner}</span>
           <span className="pcard-new">New</span>

@@ -1,18 +1,32 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import PurchaseDialog from '../components/PurchaseDialog.jsx'
-import productImage from '../assets/P04.jpg'
+import { getProduct } from '../data/products.js'
+import deepPlumImage from '../assets/P04.jpg'
 import './Product.css'
 
-// 상품 정보 (가상 상품 예시. 용량은 시안에서 뺌)
-const INFO = [
-  { label: '가격', value: '19,000원', strong: true },
-  { label: '제형', value: '매트 (부드러운 벨벳 질감)' },
-  { label: '추천 톤', value: '쿨 톤' },
-]
+// 상품 id가 없거나 잘못된 주소(/product)로 들어오면 보여 주는 기본 상품 (기존 P04 화면)
+const DEFAULT_PRODUCT = {
+  image: deepPlumImage,
+  name: '벨벳 매트 립스틱 딥 플럼',
+  desc: '푸른빛이 감도는 깊은 플럼 컬러예요. 한 번만 발라도 선명하게 발색되고, 가볍게 밀착되어 오래 유지돼요.',
+  price: '19,000원',
+  texture: '매트 (부드러운 벨벳 질감)',
+  toneLabel: '쿨 톤',
+}
 
-// P04 상품 상세
+// P04 상품 상세: 누른 추천 카드의 상품을 보여 줌 (/product/:id)
 function Product() {
+  const { id } = useParams()
+  const product = getProduct(id) ?? DEFAULT_PRODUCT
   const [open, setOpen] = useState(false)
+
+  // 상품 정보 (가상 상품 예시. 용량은 시안에서 뺌)
+  const INFO = [
+    { label: '가격', value: product.price, strong: true },
+    { label: '제형', value: product.texture },
+    { label: '추천 톤', value: product.toneLabel },
+  ]
 
   return (
     <>
@@ -23,13 +37,13 @@ function Product() {
           </h1>
 
           <div className="product-body">
-            <img src={productImage} alt="딥 플럼 색 립스틱과 발색 자국" className="product-image" />
+            <img src={product.image} alt={`${product.name} 상품과 발색`} className="product-image" />
 
             <div className="product-info">
               <div className="product-intro">
                 <span className="product-virtual">실제로 판매하지 않는 가상 상품이에요</span>
-                <h2 className="product-name">립핏 벨벳 매트 립스틱 딥 플럼</h2>
-                <p className="product-desc">푸른빛이 감도는 깊은 플럼 컬러예요. 한 번만 발라도 선명하게 발색되고, 가볍게 밀착되어 오래 유지돼요.</p>
+                <h2 className="product-name">립핏 {product.name}</h2>
+                <p className="product-desc">{product.desc}</p>
               </div>
 
               <dl className="product-spec">

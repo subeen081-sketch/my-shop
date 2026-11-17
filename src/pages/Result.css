@@ -87,13 +87,51 @@
   align-items: center;
   gap: 24px;
 }
-.result-grid {
+/* 추천 카드 화면을 담는 틀. 넘기는 동안에만 바깥을 잘라 옆 화면이 보이지 않게 함 */
+.result-slider {
+  --slide-gap: 24px;
+  position: relative;
   flex: 1;
   min-width: 0;
+}
+.result-slider.is-sliding {
+  overflow: hidden;
+  transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.result-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
+/* 밀려 나가는 이전 화면은 새 화면과 같은 자리에 겹쳐 둠 */
+.result-grid-out {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* ‹ › 넘김: › 는 왼쪽으로, ‹ 는 오른쪽으로 밀림 (0.45초) */
+@keyframes lfSlideInNext {
+  from { transform: translateX(calc(100% + var(--slide-gap))); }
+  to { transform: none; }
+}
+@keyframes lfSlideOutNext {
+  from { transform: none; }
+  to { transform: translateX(calc(-100% - var(--slide-gap))); }
+}
+@keyframes lfSlideInPrev {
+  from { transform: translateX(calc(-100% - var(--slide-gap))); }
+  to { transform: none; }
+}
+@keyframes lfSlideOutPrev {
+  from { transform: none; }
+  to { transform: translateX(calc(100% + var(--slide-gap))); }
+}
+.slide-in-next { animation: lfSlideInNext 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.slide-out-next { animation: lfSlideOutNext 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.slide-in-prev { animation: lfSlideInPrev 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.slide-out-prev { animation: lfSlideOutPrev 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 .result-page-btn {
   width: 48px;
   height: 48px;
@@ -117,7 +155,7 @@
 
 /* 터치 기기: 추천 목록은 가로 스와이프로 넘기므로 세로 스크롤만 브라우저에 맡김 */
 @media (hover: none) and (pointer: coarse) {
-  .result-grid {
+  .result-slider {
     touch-action: pan-y;
   }
 }
@@ -130,6 +168,9 @@
   }
   .result-reco {
     gap: 16px;
+  }
+  .result-slider {
+    --slide-gap: 16px;
   }
   .result-grid {
     gap: 16px;
@@ -179,9 +220,12 @@
     justify-content: center;
     gap: 20px 12px;
   }
-  .result-grid {
+  .result-slider {
+    --slide-gap: 12px;
     order: -1;
     flex: 1 1 100%;
+  }
+  .result-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }

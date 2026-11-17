@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { judgeTone } from '../data/tones.js'
 import './Diagnosis.css'
 
 // 진단 질문 12개 (예시 문항: 퍼스널컬러 간이 진단 + 립 취향)
@@ -18,6 +19,27 @@ const QUESTIONS = [
   { q: '원하는 발색 정도를 골라 주세요', options: ['맨입술처럼 자연스럽게', '생기 있게 은은하게', '선명하고 또렷하게'] },
 ]
 const TOTAL = QUESTIONS.length
+
+// 웜·쿨 판정 기준 (문항 번호 → 선택지 → 톤). 여기 없는 선택지와 1·10~12번 문항은 0점
+const TONE_SCORING = {
+  2: { 초록빛: 'warm', '파란빛이나 보랏빛': 'cool' },
+  3: { '쉽게 그을려요': 'warm', '붉어졌다가 금방 돌아와요': 'cool' },
+  4: { 골드: 'warm', 실버: 'cool' },
+  5: { '노란빛이 도는 편': 'warm', '붉은빛이나 분홍빛이 도는 편': 'cool' },
+  6: { '살구색이나 베이지색': 'warm', '연한 분홍색': 'cool', '진한 분홍색이나 붉은색': 'cool' },
+  7: { '밝은 갈색': 'warm', 검은색: 'cool' },
+  8: { '아이보리처럼 부드러운 흰색': 'warm', '새하얀 흰색': 'cool' },
+  9: { '부드럽고 따뜻해요': 'warm', '맑고 시원해요': 'cool' },
+}
+
+// 판정 기준의 선택지 문구가 질문과 어긋나면 개발 중에 바로 알 수 있게 함
+if (import.meta.env.DEV) {
+  for (const [step, map] of Object.entries(TONE_SCORING)) {
+    for (const label of Object.keys(map)) {
+      if (!QUESTIONS[step - 1].options.includes(label)) console.warn(`[진단] ${step}번 문항에 '${label}' 선택지가 없어요`)
+    }
+  }
+}
 
 function ArrowIcon({ direction }) {
   const d = direction === 'left' ? 'M10 3.5 5.5 8l4.5 4.5' : 'M6 3.5 10.5 8 6 12.5'
@@ -44,7 +66,7 @@ function Diagnosis() {
   const goNext = () => {
     if (!hasPick) return
     if (isLast) {
-      navigate('/result') // B02-2 결과 보기 → P03
+      navigate(`/result?tone=${judgeTone(answers, TONE_SCORING)}`) // B02-2 결과 보기 → P03 (웜·쿨·뉴트럴)
       return
     }
     setStep(step + 1)
