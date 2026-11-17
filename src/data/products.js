@@ -35,7 +35,7 @@ const COOL = [
 // P04 상품 상세에 쓰는 내용: 제형별 공통 문구 + 색마다 한 문장
 const LINES = {
   matte: { texture: '매트 (부드러운 벨벳 질감)', sentence: '한 번만 발라도 선명하게 발색되고, 가볍게 밀착되어 오래 유지돼요.' },
-  gloss: { texture: '글로스 (촉촉한 광택)', sentence: '촉촉한 광택이 입술을 도톰해 보이게 하고, 끈적임 없이 가볍게 발려요.' },
+  gloss: { texture: '글로스 (촉촉한 광택)', sentence: '촉촉한 광택이 오래 남고, 끈적임 없이 가볍게 발려요.' },
 }
 const COOL_COLORS = [
   '회색빛이 살짝 도는 차분한 로즈 컬러예요.',
