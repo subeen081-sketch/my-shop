@@ -185,12 +185,15 @@ svg.chip:hover {
   }
   .main-steps {
     margin-top: 24px;
-    padding: 8px 14px;
+    padding: 10px 22px;
     gap: 6px;
     font-size: 13px;
   }
+  /* 단계 이름이 두 줄로 꺾이지 않게 번호 원을 이름 위에 둠 */
   .main-steps-item {
-    gap: 6px;
+    flex-direction: column;
+    gap: 4px;
+    white-space: nowrap;
   }
   .main-steps-num {
     width: 20px;
@@ -210,6 +213,12 @@ svg.chip:hover {
   }
   .main-intro-image {
     height: 280px;
+  }
+}
+/* 아주 좁은 화면 ~359px: 제목 첫 줄 '나에게 어울리는 립 컬러,'가 한 줄에 들어가게 */
+@media (max-width: 359px) {
+  .main-title {
+    font-size: 28px;
   }
 }
 
