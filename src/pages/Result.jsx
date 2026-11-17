@@ -4,6 +4,12 @@ import FlipCard from '../components/FlipCard.jsx'
 import ProductCard from '../components/ProductCard.jsx'
 import { productPagesFor } from '../data/products.js'
 import { TONES, toTone } from '../data/tones.js'
+import { loadLikes, saveLikes } from '../utils/likes.js'
+import { shareLink, shareMessage } from '../utils/share.js'
+import { downloadResultImage } from '../utils/resultImage.js'
+import { useToast } from '../hooks/useToast.js'
+import Toast from '../components/Toast.jsx'
+import logo from '../assets/logo.jpg'
 import resultImage from '../assets/P03_HEADER.jpg'
 import './Result.css'
 
@@ -69,13 +75,40 @@ function Result() {
   const productPages = productPagesFor(toneKey)
 
   const [page, setPage] = useState(0)
-  const [liked, setLiked] = useState({})
+  const [liked, setLiked] = useState(loadLikes) // 찜은 브라우저에 저장돼 새로고침해도 유지
   // 넘기는 중일 때만 값이 있음: { from: 이전 화면 번호, dir: 'next' | 'prev', fromH: 이전 높이 }
   const [slide, setSlide] = useState(null)
   const sliderRef = useRef(null)
   const gridRef = useRef(null)
 
-  const toggleLike = (id) => setLiked((prev) => ({ ...prev, [id]: !prev[id] }))
+  const toast = useToast()
+  const [saving, setSaving] = useState(false)
+
+  // B03-6 공유하기: 지금 결과 주소(?tone= 포함)를 공유하거나 복사
+  const onShare = async () => {
+    const result = await shareLink({ title: '립핏 진단 결과', text: `${tone.title}. 립핏에서 나에게 어울리는 립 컬러를 찾아보세요.` })
+    toast.show(shareMessage(result))
+  }
+
+  // B03-7 저장하기: 결과를 이미지로 그려 내려받음 (추천 립은 첫 화면 앞 3개)
+  const onSave = async () => {
+    setSaving(true)
+    try {
+      await downloadResultImage({ tone, toneKey, headerImage: resultImage, logoImage: logo, products: productPages[0].slice(0, 3) })
+      toast.show('결과 이미지를 저장했어요')
+    } catch {
+      toast.show('이미지를 저장하지 못했어요. 다시 시도해 주세요')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const toggleLike = (id) =>
+    setLiked((prev) => {
+      const next = { ...prev, [id]: !prev[id] }
+      saveLikes(next)
+      return next
+    })
   const isFirst = page === 0
   const isLast = page === productPages.length - 1
 
@@ -169,21 +202,22 @@ function Result() {
         <PageArrow direction="right" label="다음 추천 상품" onClick={() => goTo(page + 1)} disabled={isLast} />
       </section>
 
-      {/* S03-3 결과 저장·공유: 동작 [미정] */}
+      {/* S03-3 결과 저장·공유 (회원 기능 없이): 공유는 링크, 저장은 결과 이미지 내려받기 */}
       <section className="result-actions" aria-label="결과 저장과 공유">
-        <button type="button" className="btn btn-m btn-secondary result-action">
+        <button type="button" className="btn btn-m btn-secondary result-action" onClick={onShare}>
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
             <path d="M9 11V2.5M5.5 6 9 2.5 12.5 6M3 10v4.5h12V10" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           공유하기
         </button>
-        <button type="button" className="btn btn-m btn-secondary result-action">
+        <button type="button" className="btn btn-m btn-secondary result-action" onClick={onSave} disabled={saving} aria-busy={saving}>
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
             <path d="M9 2.5V11M5.5 7.5 9 11l3.5-3.5M3 10v4.5h12V10" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          저장하기
+          {saving ? '저장하는 중' : '저장하기'}
         </button>
       </section>
+      <Toast message={toast.message} />
     </main>
   )
 }

@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PurchaseDialog from '../components/PurchaseDialog.jsx'
+import Toast from '../components/Toast.jsx'
 import { getProduct } from '../data/products.js'
+import { useToast } from '../hooks/useToast.js'
+import { shareLink, shareMessage } from '../utils/share.js'
 import deepPlumImage from '../assets/P04.jpg'
 import './Product.css'
 
@@ -20,6 +23,13 @@ function Product() {
   const { id } = useParams()
   const product = getProduct(id) ?? DEFAULT_PRODUCT
   const [open, setOpen] = useState(false)
+  const toast = useToast()
+
+  // B04-2 공유하기: 이 상품 상세 주소를 공유하거나 복사
+  const onShare = async () => {
+    const result = await shareLink({ title: `립핏 ${product.name}`, text: `립핏 ${product.name}. ${product.toneLabel}에 어울리는 립이에요.` })
+    toast.show(shareMessage(result))
+  }
 
   // 상품 정보 (가상 상품 예시. 용량은 시안에서 뺌)
   const INFO = [
@@ -62,8 +72,8 @@ function Product() {
                 <button type="button" className="btn btn-l btn-primary product-buy" onClick={() => setOpen(true)}>
                   구매하기
                 </button>
-                {/* B04-2 공유하기: 동작 [미정] */}
-                <button type="button" className="btn btn-l btn-secondary product-share">
+                {/* B04-2 공유하기: 상품 주소를 공유하거나 복사 */}
+                <button type="button" className="btn btn-l btn-secondary product-share" onClick={onShare}>
                   <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
                     <path d="M9 11V2.5M5.5 6 9 2.5 12.5 6M3 10v4.5h12V10" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -76,6 +86,7 @@ function Product() {
       </main>
 
       {open && <PurchaseDialog onClose={() => setOpen(false)} />}
+      <Toast message={toast.message} />
     </>
   )
 }
