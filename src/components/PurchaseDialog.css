@@ -51,6 +51,24 @@
   width: 100%;
 }
 
+/* 터치 기기: 가운데 팝업 대신 아래에서 올라오는 시트 */
+@keyframes lfSheetUp {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .pdialog-wrap {
+    align-items: flex-end;
+  }
+  .pdialog,
+  .pdialog.rise {
+    width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+    animation: lfSheetUp 0.3s ease-out both;
+  }
+}
+
 /* ── 반응형 (데스크톱 1024px 이상은 그대로) ──
    마우스로 보는 좁은 창용. 터치 기기의 아래 시트(.pdialog.rise 규칙)가 이보다 우선함 */
 @media (max-width: 767px) {

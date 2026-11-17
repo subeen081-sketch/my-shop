@@ -115,6 +115,13 @@
   padding: 0 28px;
 }
 
+/* 터치 기기: 추천 목록은 가로 스와이프로 넘기므로 세로 스크롤만 브라우저에 맡김 */
+@media (hover: none) and (pointer: coarse) {
+  .result-grid {
+    touch-action: pan-y;
+  }
+}
+
 /* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
 /* 태블릿 768~1023px */
 @media (max-width: 1023px) {

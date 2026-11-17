@@ -57,6 +57,13 @@
   color: var(--ink-muted);
 }
 
+/* 터치 기기: 로고 호버 효과 없음 (모바일 대체 '없음') */
+@media (hover: none) and (pointer: coarse) {
+  .header-logo:hover {
+    opacity: 1;
+  }
+}
+
 /* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
 @media (max-width: 767px) {
   .header-inner {
@@ -68,5 +75,12 @@
   }
   .header-sub {
     font-size: 14px;
+  }
+}
+
+/* 터치 기기: 호버 대신 누르는 동안 로고 글자가 옅어짐 */
+@media (hover: none) and (pointer: coarse) {
+  .header-logo:active {
+    opacity: 0.7;
   }
 }

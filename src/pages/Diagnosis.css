@@ -103,6 +103,14 @@
   padding: 0 36px;
 }
 
+/* 터치 기기: 선택지 호버 효과 끔(선택된 채움 상태는 그대로) */
+@media (hover: none) and (pointer: coarse) {
+  .diag-option:not(.is-checked):hover {
+    background: var(--surface);
+    border-color: var(--line-200);
+  }
+}
+
 /* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
 @media (max-width: 767px) {
   .diag {
@@ -125,5 +133,13 @@
   }
   .diag-next {
     padding: 0 28px;
+  }
+}
+
+/* 터치 기기: 호버 대신 누르는 동안 선택지 바탕이 옅게 바뀜(선택된 채움 상태는 그대로) */
+@media (hover: none) and (pointer: coarse) {
+  .diag-option:not(.is-checked):active {
+    background: var(--page-mid);
+    border-color: var(--line-300);
   }
 }

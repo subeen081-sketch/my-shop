@@ -102,6 +102,16 @@
   background: var(--surface);
 }
 
+/* 터치 기기: 카드가 떠오르는 호버 효과는 끔. 대신 추천 목록을 손가락으로 밀어 넘김(Result.jsx) */
+@media (hover: none) and (pointer: coarse) {
+  .pcard:hover {
+    transform: none;
+  }
+  .pcard:hover .pcard-link {
+    box-shadow: var(--shadow-card);
+  }
+}
+
 /* ── 반응형 (데스크톱 1024px 이상은 그대로) ── */
 /* 모바일 ~767px: 한 줄 2개에 맞춰 카드 안을 줄임 */
 @media (max-width: 767px) {
@@ -140,5 +150,15 @@
     left: 18px;
     width: 36px;
     height: 36px;
+  }
+}
+
+/* 터치 기기: 호버 대신 누르는 동안 카드가 떠오르고 그림자가 짙어짐 */
+@media (hover: none) and (pointer: coarse) {
+  .pcard:active {
+    transform: translateY(-2px);
+  }
+  .pcard:active .pcard-link {
+    box-shadow: var(--shadow-card-hover);
   }
 }

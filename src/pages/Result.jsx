@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import FlipCard from '../components/FlipCard.jsx'
 import ProductCard from '../components/ProductCard.jsx'
 import { productPages } from '../data/products.js'
@@ -48,6 +48,9 @@ function PageArrow({ direction, label, onClick, disabled }) {
   )
 }
 
+// 이 거리(px)보다 짧게 밀면 넘기지 않음(카드 누르기와 구분)
+const SWIPE_MIN = 50
+
 // P03 진단 결과
 function Result() {
   const [page, setPage] = useState(0)
@@ -56,6 +59,25 @@ function Result() {
   const toggleLike = (id) => setLiked((prev) => ({ ...prev, [id]: !prev[id] }))
   const isFirst = page === 0
   const isLast = page === productPages.length - 1
+
+  // 터치 기기 전용: 추천 목록을 손가락으로 옆으로 밀어 넘김 (‹ › 버튼과 같은 동작)
+  // 터치 이벤트만 쓰므로 마우스(데스크톱)에서는 동작하지 않음
+  const swipe = useRef(null)
+  const onTouchStart = (e) => {
+    const t = e.touches[0]
+    swipe.current = e.touches.length === 1 ? { x: t.clientX, y: t.clientY } : null
+  }
+  const onTouchEnd = (e) => {
+    const start = swipe.current
+    swipe.current = null
+    if (!start) return
+    const t = e.changedTouches[0]
+    const dx = t.clientX - start.x
+    const dy = t.clientY - start.y
+    if (Math.abs(dx) < SWIPE_MIN || Math.abs(dx) <= Math.abs(dy)) return
+    if (dx < 0 && !isLast) setPage(page + 1)
+    if (dx > 0 && !isFirst) setPage(page - 1)
+  }
 
   return (
     <main className="result">
@@ -71,7 +93,7 @@ function Result() {
       {/* S03-2 추천 영역: 첫 화면 6개, ›를 누르면 나머지 3개 */}
       <section className="result-reco" aria-label="추천 상품">
         <PageArrow direction="left" label="이전 추천 상품" onClick={() => setPage(page - 1)} disabled={isFirst} />
-        <div key={page} className="result-grid">
+        <div key={page} className="result-grid" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           {productPages[page].map((product) => (
             <ProductCard
               key={product.id}
