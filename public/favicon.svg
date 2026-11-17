@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 립핏 파비콘: P01 히어로 장식의 립스틱 모양 (블러시 바탕 + 로즈 불릿) -->
+  <rect width="64" height="64" rx="14" fill="#FFE3EC"/>
+  <g transform="translate(32 32) rotate(-12) scale(0.86) translate(-32 -32)">
+    <path d="M23 30V16Q23 9 32 5L41 10V30Z" fill="#D42A5E"/>
+    <rect x="19" y="29" width="26" height="9" rx="2.5" fill="#B21F4D"/>
+    <rect x="17" y="37" width="30" height="22" rx="5" fill="#FFFFFF" stroke="#D42A5E" stroke-width="2.5"/>
+  </g>
+</svg>
